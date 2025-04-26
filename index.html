@@ -15,6 +15,7 @@
       align-items: center;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: cyan;
+      overflow: hidden;
     }
 
     .container {
@@ -29,22 +30,39 @@
       font-size: 2.5em;
       margin-bottom: 20px;
       color: cyan;
-      animation: flicker 2s infinite alternate;
+      display: inline-block;
     }
 
-    @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        text-shadow:
-          0 0 5px cyan,
-          0 0 10px cyan,
-          0 0 20px cyan,
-          0 0 40px cyan;
-        opacity: 1;
-      }
-      20%, 24%, 55% {
-        text-shadow: none;
-        opacity: 0.8;
-      }
+    .letter {
+      display: inline-block;
+      animation: softFlicker 2s infinite alternate;
+      text-shadow:
+        0 0 5px cyan,
+        0 0 10px cyan,
+        0 0 20px cyan,
+        0 0 40px cyan;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes softFlicker {
+      0% { opacity: 0.9; }
+      50% { opacity: 1; }
+      100% { opacity: 0.85; }
+    }
+
+    .crazyFlicker {
+      animation: crazyFlicker 0.1s infinite alternate !important;
+      text-shadow: none;
+    }
+
+    .broken {
+      opacity: 0.2;
+    }
+
+    @keyframes crazyFlicker {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.1; transform: scale(1.2); }
+      100% { opacity: 0.5; transform: scale(0.9); }
     }
 
     p {
@@ -57,6 +75,7 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
+      margin-top: 20px;
     }
 
     .buttons a {
@@ -79,17 +98,77 @@
 </head>
 <body>
 
-  <div class="container">
-    <h1>We're Sorry!</h1>
-    <p>NextByte Games, and PixelPlaygrounds have officially been discontinued by ByteBerlin.<br>
-    Please use our other sites as a replacement.</p>
-    
-    <div class="buttons">
-      <a href="https://byteberlin.pages.dev" target="_blank">Official Site</a>
-      <a href="https://inbitgames.pages.dev" target="_blank">INBIT Games</a>
-      <a href="https://coolpixclips.carrd.co" target="_blank">CoolPixClips</a>
-    </div>
+<div class="container">
+  <h1 id="title">
+    <!-- Letters will be inserted here -->
+  </h1>
+  <p>NextByte Games, and PixelPlaygrounds have officially been discontinued by ByteBerlin.<br>
+  Please use our other sites as a replacement.</p>
+  
+  <div class="buttons">
+    <a href="https://byteberlin.pages.dev" target="_blank">Official Site</a>
+    <a href="https://inbitgames.pages.dev" target="_blank">INBIT Games</a>
+    <a href="https://coolpixclips.carrd.co" target="_blank">CoolPixClips</a>
   </div>
+</div>
+
+<script>
+  const title = document.getElementById('title');
+  const text = "We're Sorry!";
+
+  // Create letter spans
+  title.innerHTML = text.split('').map(letter => {
+    if (letter === ' ') return ' ';
+    return `<span class="letter">${letter}</span>`;
+  }).join('');
+
+  const letters = document.querySelectorAll('.letter');
+
+  function crazyFlickerAndBreak(letter) {
+    letter.classList.add('crazyFlicker');
+
+    // After crazy flickering for a short while, make it broken
+    setTimeout(() => {
+      letter.classList.remove('crazyFlicker');
+      letter.classList.add('broken');
+    }, 1000); // Flicker crazily for 1 second then break
+  }
+
+  function restoreLetters() {
+    letters.forEach(letter => {
+      letter.classList.remove('broken', 'crazyFlicker');
+    });
+  }
+
+  function chooseLettersToBreak() {
+    // Restore all first
+    restoreLetters();
+
+    // Choose 1 to 3 random letters
+    const indices = [];
+    const count = Math.floor(Math.random() * 3) + 1; // 1 to 3
+
+    while (indices.length < count) {
+      const randomIndex = Math.floor(Math.random() * letters.length);
+      if (!indices.includes(randomIndex)) {
+        indices.push(randomIndex);
+      }
+    }
+
+    // Flicker crazily and break selected letters
+    indices.forEach(i => {
+      crazyFlickerAndBreak(letters[i]);
+    });
+
+    // After all have broken, wait at least 2 seconds before next flicker
+    setTimeout(() => {
+      chooseLettersToBreak();
+    }, Math.random() * 2000 + 2000); // 2s-4s gap
+  }
+
+  // Start the cycle
+  chooseLettersToBreak();
+</script>
 
 </body>
 </html>
