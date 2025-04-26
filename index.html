@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>We're Sorry!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #1c1f24, #2c313a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: cyan;
+    }
+
+    .container {
+      background: #0f0f10;
+      padding: 40px 60px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: cyan;
+      animation: flicker 2s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow:
+          0 0 5px cyan,
+          0 0 10px cyan,
+          0 0 20px cyan,
+          0 0 40px cyan;
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+        opacity: 0.8;
+      }
+    }
+
+    p {
+      color: gray;
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .buttons a {
+      text-decoration: none;
+      background: #00bcd4;
+      color: #0f0f10;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .buttons a:hover {
+      background: cyan;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>We're Sorry!</h1>
+    <p>NextByte Games, and PixelPlaygrounds have officially been discontinued by ByteBerlin.<br>
+    Please use our other sites as a replacement.</p>
+    
+    <div class="buttons">
+      <a href="https://byteberlin.pages.dev" target="_blank">Official Site</a>
+      <a href="https://inbitgames.pages.dev" target="_blank">INBIT Games</a>
+      <a href="https://coolpixclips.carrd.co" target="_blank">CoolPixClips</a>
+    </div>
+  </div>
+
+</body>
+</html>
